@@ -37,11 +37,11 @@ set listchars=tab:▸\ ,trail:▫
 set number                                                   " show line numbers
 set ruler                                                    " show where you are
 set scrolloff=3                                              " show context above/below cursorline
-set shiftwidth=2                                             " normal mode indentation commands use 2 spaces
+set shiftwidth=4                                             " normal mode indentation commands use 2 spaces
 set showcmd
 set smartcase                                                " case-sensitive search if any caps
-set softtabstop=2                                            " insert mode tab and backspace use 2 spaces
-set tabstop=8                                                " actual tabs occupy 8 characters
+set softtabstop=4                                            " insert mode tab and backspace use 2 spaces
+set tabstop=4                                                " actual tabs occupy 8 characters
 set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
 set wildmenu                                                 " show a navigable menu for tab completion
 set wildmode=longest,list,full
@@ -56,12 +56,6 @@ set belloff+=ctrlg  " if vim beeps during completion
 
 set statusline=%<%f\ %h%m%r%{kite#statusline()}%=%-14.(%l,%c%V%)\ %P
 set laststatus=2  " always display the status line
-
-" Enable basic mouse behavior such as resizing buffers.
-set mouse=a
-if exists('$TMUX')  " Support resizing in tmux
-  set ttymouse=xterm2
-endif
 
 " keyboard shortcuts
 let mapleader = ','
@@ -92,9 +86,19 @@ nnoremap <leader>a :cclose<CR>
 autocmd FileType go nmap <leader>gb  <Plug>(go-build)
 autocmd FileType go nmap <leader>gr  <Plug>(go-run)
 autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+autocmd FileType go nmap <leader>tc  <Plug>(go-coverage-toggle)
+" au filetype go inoremap <buffer> . .<C-x><C-o>
 let g:go_test_timeout = '10s'
-let g:go_list_type = "quickfix"
-set tabstop=2
+set completeopt+=longest,menuone,noselect,noinsert
+function! OpenCompletion()
+    if !pumvisible() && ((v:char >= 'a' && v:char <= 'z') || (v:char >= 'A' && v:char <= 'Z'))
+        call feedkeys("\<C-x>\<C-o>", "n")
+    endif
+endfunction
+
+autocmd InsertCharPre *.go call OpenCompletion()
+" let g:go_code_completion_enabled = 1
+
 augroup DragQuickfixWindowDown
     autocmd!
     autocmd FileType qf wincmd J
@@ -134,6 +138,10 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
+" Git commands
+nmap <leader>gc  :Gcommit<CR>
+nmap <leader>gp  :Gpush<CR>
+nmap <leader>ga  :Gwrite<CR>
 " fdoc is yaml
 autocmd BufRead,BufNewFile *.fdoc set filetype=yaml
 " md is markdown
@@ -156,9 +164,11 @@ autocmd VimResized * :wincmd =
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 
 " Fix Cursor in TMUX
+set mouse=a
 if exists('$TMUX')
   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
   let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+  set ttymouse=xterm2
 else
   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
