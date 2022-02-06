@@ -1,0 +1,6 @@
+Plugin 'wincent/command-t'
+Plugin 'xuyuanp/nerdtree-git-plugin'
+Plugin 'fatih/vim-go'
+Plugin 'ianks/vim-tsx'
+Plugin 'moll/vim-node'
+Plugin 'myhere/vim-nodejs-complete'
