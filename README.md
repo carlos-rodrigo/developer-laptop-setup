@@ -1,3 +1,16 @@
 # vimrc
 
-Here you find my personal `vimrc` file with setups for `python` and `golang` 
+Here you find my personal development setup.
+
+brew
+macvim
+Maximum Awesome
+zsh
+iterm
+ohmyzsh
+
+vscode
+golang
+
+
+rectangle
