@@ -52,6 +52,9 @@ if exists('$TMUX')  " Support resizing in tmux
   set ttymouse=xterm2
 endif
 
+if !has('nvim')
+    set ttymouse=xterm2
+endif
 " keyboard shortcuts
 let mapleader = ','
 noremap <C-h> <C-w>h
@@ -116,22 +119,6 @@ endif
 
 " Don't copy the contents of an overwritten selection.
 vnoremap p "_dP
-
-" vim-go
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
-autocmd FileType go nmap <leader>gb  <Plug>(go-build)
-autocmd FileType go nmap <leader>gr  <Plug>(go-run)
-autocmd FileType go nmap <leader>gt  <Plug>(go-test)
-autocmd FileType go nmap <leader>tc  <Plug>(go-coverage-toggle)
-let g:go_test_timeout = '10s'
-set completeopt+=longest,menuone,noselect,noinsert
-let g:go_fmt_command = "goimports"
-augroup DragQuickfixWindowDown
-    autocmd!
-    autocmd FileType qf wincmd J
-augroup end
 
 " Go crazy!
 if filereadable(expand("~/.vimrc.local"))
