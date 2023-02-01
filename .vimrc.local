@@ -3,7 +3,8 @@ set nocursorline " don't highlight current line
 " keyboard shortcuts
 inoremap jj <ESC>
 nnoremap <leader>s :NERDTreeFind<CR>
-nnoremap <leader>d :NERDTreeToggle<CR>
+nnoremap <leader>n :cnext<CR>
+nnoremap <leader>m :cprevious<CR>
 " highlight search
 "set hlsearch
 "nmap <leader>hl :let @/ = ""<CR>
@@ -14,13 +15,45 @@ let g:NERDTreeWinPos= "right"
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeQuitOnOpen = 1
 let g:gitgutter_enabled = 0
 
-autocmd vimenter * NERDTree
+" vim-go
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+autocmd FileType go nmap <leader>gb  <Plug>(go-build)
+autocmd FileType go nmap <leader>gr  <Plug>(go-run)
+autocmd FileType go nmap <leader>gt  <Plug>(go-test)
+autocmd FileType go nmap <leader>tc  <Plug>(go-coverage-toggle)
+let g:go_test_timeout = '10s'
+set completeopt+=longest,menuone,noselect,noinsert
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+
+augroup DragQuickfixWindowDown
+    autocmd!
+    autocmd FileType qf wincmd J
+augroup end
+
+" autocmd vimenter * NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " automatically rebalance windows on vim resize
 autocmd VimResized * :wincmd =
 autocmd CompleteDone * if !pumvisible() | pclose | endif
+
+" prettier
+packloadall
+autocmd FileType typescript nmap <leader>pt  <Plug>(prettier)
+let g:vim_jsx_pretty_colorful_config = 1 " default 0
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
+autocmd FileType typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
 
 " gui settings
 if (&t_Co == 256 || has('gui_running'))
@@ -46,3 +79,6 @@ function! s:RemoveConflictingAlignMaps()
 endfunction
 command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
 silent! autocmd VimEnter * RemoveConflictingAlignMaps
+
+
+filetype plugin indent on
