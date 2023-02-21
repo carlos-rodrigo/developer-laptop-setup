@@ -1,4 +1,4 @@
-" don't bother with vi compatibility
+" do't bother with vi compatibility
 set nocompatible
 
 " enable syntax highlighting
@@ -65,7 +65,7 @@ noremap <leader>l :Align
 nnoremap <leader>a :Ag<space>
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>d :NERDTreeToggle<CR>
-nnoremap <leader>f :NERDTreeFind<CR>
+nnoremap <leader>f :NERDTreeFocus<CR>
 nnoremap <leader>t :CtrlP<CR>
 nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 nnoremap <leader>] :TagbarToggle<CR>
