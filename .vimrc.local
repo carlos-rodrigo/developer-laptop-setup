@@ -1,22 +1,23 @@
-set nocursorline " don't highlight current line
-
 " keyboard shortcuts
 inoremap jj <ESC>
-nnoremap <leader>s :NERDTreeFind<CR>
+nnoremap <leader>d :NvimTreeToggle<CR>
+nnoremap <leader>s :NvimTreeFocus<CR>
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>m :cprevious<CR>
+
 " highlight search
 "set hlsearch
 "nmap <leader>hl :let @/ = ""<CR>
 "
 " pluggins settings
-let g:NERDSpaceDelims=1
-let g:NERDTreeWinPos= "right"
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-let NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeQuitOnOpen = 1
-let g:gitgutter_enabled = 0
+let g:nvim_tree_auto_close=1
+" let g:NERDSpaceDelims=1
+" let g:NERDTreeWinPos= "right"
+" let NERDTreeMinimalUI = 1
+" let NERDTreeDirArrows = 1
+" let NERDTreeAutoDeleteBuffer = 1
+" let g:NERDTreeQuitOnOpen = 1
+" let g:gitgutter_enabled = 0
 
 " vim-go
 map <C-n> :cnext<CR>
@@ -48,12 +49,37 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd VimResized * :wincmd =
 autocmd CompleteDone * if !pumvisible() | pclose | endif
 
-" prettier
-packloadall
-autocmd FileType typescript nmap <leader>pt  <Plug>(prettier)
-let g:vim_jsx_pretty_colorful_config = 1 " default 0
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescriptreact
-autocmd FileType typescriptreact setlocal shiftwidth=2 softtabstop=2 expandtab
+" coc extensions
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
+
+" by default .ts file are not identified as typescript and .tsx files are not
+" identified as typescript react file, so add following
+au BufNewFile,BufRead *.ts setlocal filetype=typescript
+au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+autocmd FileType typescript setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType typescript.tsx setlocal shiftwidth=2 softtabstop=2 expandtab
+
+" coc settings
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved
+set signcolumn=yes
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#pum#confirm() 
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " gui settings
 if (&t_Co == 256 || has('gui_running'))
