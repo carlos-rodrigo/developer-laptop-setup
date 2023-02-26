@@ -11,9 +11,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " install Vundle bundles
-if filereadable(expand("~/.vimrc.bundles"))
-  source ~/.vimrc.bundles
-  source ~/.vimrc.bundles.local
+if filereadable(expand("~/.config/nvim/bundles.vim"))
+  source ~/.config/nvim/bundles.vim
+  source ~/.config/nvim/bundles.local.vim
 endif
 
 call vundle#end()
@@ -121,7 +121,7 @@ endif
 vnoremap p "_dP
 
 " Go crazy!
-if filereadable(expand("~/.vimrc.local"))
+if filereadable(expand("~/.config/nvim/init.local.vim"))
   " In your .vimrc.local, you might like:
   "
   " set autowrite
@@ -131,5 +131,5 @@ if filereadable(expand("~/.vimrc.local"))
   "
   " autocmd! bufwritepost .vimrc source ~/.vimrc
   " noremap! jj <ESC>
-  source ~/.vimrc.local
+  source ~/.config/nvim/init.local.vim
 endif
