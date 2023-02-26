@@ -1,7 +1,11 @@
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+lua require('config')
+
 " keyboard shortcuts
 inoremap jj <ESC>
 nnoremap <leader>d :NvimTreeToggle<CR>
-nnoremap <leader>s :NvimTreeFocus<CR>
+nnoremap <leader>s :NvimTreeFindFileToggle<CR>
 nnoremap <leader>n :cnext<CR>
 nnoremap <leader>m :cprevious<CR>
 
